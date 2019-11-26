@@ -141,18 +141,86 @@ const unrequitedFollowers = (data) => {
 // unrequitedFollowers(data);
 
 const mostFollowsOverThirty = (data) => {
-  let currentMostFollows = {
+  let mostFollows = {
     name: '',
     count: 0,
   }
   for(let key in data){
-    console.log(key)
-    if(data[key].age > 30 && currentMostFollows.count < data[key].follows.length){
-      currentMostFollows.name = data[key].name;
-      currentMostFollows.count = data[key].follows.length;
+    if(data[key].age > 30 && mostFollows.count < data[key].follows.length){
+      mostFollows.name = data[key].name;
+      mostFollows.count = data[key].follows.length;
     }
   }
-  console.log(currentMostFollows)
+  return mostFollows;
 }
 
-mostFollowsOverThirty();
+// mostFollowsOverThirty(data);
+
+// Identify who follows the most people over 30
+
+const mostFollowedOverThirty = (data) => {
+  
+  let followCounter = {}
+
+  for(let key in data){
+    if(data[key].age > 30){
+      data[key].follows.reduce((total, name) => {
+        if(!followCounter[name]) followCounter[name] = 0;
+        followCounter[name] ++;
+        return followCounter;
+      }, followCounter)
+    }
+  }
+  let currentPop = 0;
+  let mostPop = '';
+
+  for(let key in followCounter){
+    if(data[key].age > 30){
+      if(currentPop < followCounter[key]){
+        currentPop = followCounter[key];
+        mostPop = key;
+      } 
+    }
+  }
+  return data[mostPop].name;
+}
+
+// mostFollowedOverThirty(data);
+
+const reach = () => {
+    // This gives people who follows a specific person
+
+    const followHistory = {
+      following: {
+  
+      }, 
+      follows: {
+        
+      }
+    }
+  
+    for(let key in data){
+      // Follows person
+      data[key].follows.reduce((total, code) => {
+        const name = data[code].name;
+        if(!followHistory.follows[name]) 
+          followHistory.follows[name] = [];
+        
+          followHistory.follows[name].push(data[key].name);
+        
+        return followHistory.follows;
+      }, followHistory.follows)
+      // Person follows
+      followHistory.following[data[key].name] = data[key].follows.map(code => data[code].name)
+    }
+  
+    for(let key in data){
+      console.log('-------------------------------------')
+      console.log(`${data[key].name} follows ${followHistory.following[data[key].name].length} people:`)
+      console.log(followHistory.following[data[key].name])
+      console.log(`${data[key].name} is followed by ${followHistory.follows[data[key].name].length} people:`)
+      console.log(followHistory.follows[data[key].name])
+    }
+}
+
+// reach(data);
