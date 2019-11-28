@@ -1,0 +1,18 @@
+"i" to begin inserting text at the current cursor position.
+"a" to begin inserting after the current cursor position.
+
+esc to exit
+
+Y copies a line of text to the buffer.
+P pastes it to the cursor's current position.
+dd will delete the whole line of text. This will also effectively "cut" a line of text as well. When you delete a line, it's placed in the buffer.
+yy copies a whole line of text.
+
+saving:
+Make sure you are in command mode. Use escape key to make sure.
+type :w
+
+:wq - write (save) and quit file (and vim)
+:q! - quit and ignore changes made since last file save.
+
+
